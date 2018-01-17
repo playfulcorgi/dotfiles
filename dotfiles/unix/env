@@ -1,0 +1,2 @@
+# DEVELOPMENT_MACHINE_SSH_HOST is used for "ssh -L ..." functions inside the functions dotfile to shorten the amount of text required to write some ssh commands.
+export DEVELOPMENT_MACHINE_SSH_HOST='development-machine'

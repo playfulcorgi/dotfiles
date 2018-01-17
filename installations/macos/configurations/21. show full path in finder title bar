@@ -1,0 +1,3 @@
+#!/bin/bash
+# Show full path in Finder title bar
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true

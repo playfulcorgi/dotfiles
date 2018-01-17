@@ -1,0 +1,3 @@
+#!/bin/bash
+# Show the ~/Library directory.
+chflags nohidden ~/Library

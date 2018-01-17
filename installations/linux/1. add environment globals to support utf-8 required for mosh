@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo bash -c "printf 'LANG=en_US.utf-8\nLC_ALL=en_US.utf-8' >> /etc/environment"

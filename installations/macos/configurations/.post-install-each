@@ -1,0 +1,2 @@
+#!/usr/bin/env python3
+print('Restart macOS after applying all the needed changes. It\'s possible to restart specific services in macOS or logout for some changes to start being visible, but it\'s assumed that multiple changes were applied at the same time, so it\'s easiest to just restart the system to see all of them applied.')

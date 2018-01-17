@@ -1,0 +1,15 @@
+# If $HOME/.profile was already defined in the system, include it first and then add custom dotfiles.
+if [ -f "$HOME/.profile" ]; then
+	. "$HOME/.profile"
+fi
+
+# env should be sourced first, because some functions use them and functions should be loaded before aliases, because some aliases refer to functions.
+. "$DF_DIR/unix/env"
+. "$DF_DIR/unix/functions"
+. "$DF_DIR/unix/prompt"
+. "$DF_DIR/unix/aliases"
+
+# To source a file only on macOS:
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+# 	...
+# fi

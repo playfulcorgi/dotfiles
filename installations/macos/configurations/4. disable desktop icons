@@ -1,0 +1,3 @@
+#!/bin/bash
+# Disable icons on the Desktop
+defaults write com.apple.finder CreateDesktop -bool false

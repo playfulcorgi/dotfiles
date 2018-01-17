@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import argparse, os, subprocess
+from shlex import quote
+from glob import glob
+
+def relative(subpath='', useCwd=False):
+	import os
+	basePath = os.getcwd() if useCwd else os.path.dirname(os.path.abspath(__file__))
+	return os.path.normpath(os.path.join(basePath, os.path.expanduser(subpath)))
+parser = argparse.ArgumentParser('This script will add all files inside the specified directory and its subdirectories, excluding any files with the extension ".pub", which is the usual name gives to files containing public keys.')
+parser.add_argument(
+	'source', 
+	help='Path to directory containing keys.'
+)
+args = parser.parse_args()
+sourcePath = args.source
+keys = glob(os.path.join(relative(sourcePath, True), '**/*'), recursive=True)
+def isNotPubKey(filePath):
+	root, extension = os.path.splitext(filePath)
+	return extension != '.pub'
+keysWithoutPubkey = filter(isNotPubKey, keys)
+for keyPath in keysWithoutPubkey:
+	subprocess.run('sudo ssh-add {}'.format(quote(keyPath)), shell=True, check=True)

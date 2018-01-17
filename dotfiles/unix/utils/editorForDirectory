@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import editor, argparse
+
+def relative(subpath='', useCwd=False):
+	import os
+	basePath = os.getcwd() if useCwd else os.path.dirname(os.path.abspath(__file__))
+	return os.path.normpath(os.path.join(basePath, os.path.expanduser(subpath)))
+parser = argparse.ArgumentParser('Opens a directory inside an editor.')
+parser.add_argument(
+	'path', 
+	help='Path to directory.',
+	nargs='?',
+	default=''
+)
+args = parser.parse_args()
+directoryPath = args.path
+editor.run(relative(directoryPath, True))

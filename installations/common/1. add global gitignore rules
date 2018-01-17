@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+import os, subprocess
+gitignorePath = '~/.gitignore_global'
+def relative(subpath=''):
+    from os import path
+    return path.join(path.dirname(path.abspath(__file__)), path.expanduser(subpath))
+absGitignorePath = relative(gitignorePath)
+gitignoreValues = '''# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db'''
+print('Adding rules to global gitignore.')
+with open(absGitignorePath, 'a') as globalGitignoreFile:
+	globalGitignoreFile.write(gitignoreValues)
+print('New rules added to global gitignore.')
+with open(absGitignorePath, 'r') as globalGitignoreFile:
+	currentGitignoreContent = globalGitignoreFile.read()
+print('New gitignore contents are: \n{}'.format(currentGitignoreContent))
+subprocess.run(['git', 'config', '--global', 'core.excludesfile', gitignorePath], check=True)

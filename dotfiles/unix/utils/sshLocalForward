@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+import os, argparse, sys, subprocess, shlex, tempfile, signal
+join = os.path.join
+defaultDevelopmentMachineSSHHostKey = 'DEVELOPMENT_MACHINE_SSH_HOST'
+defaultSSHHost = os.environ.get(defaultDevelopmentMachineSSHHostKey)
+parser = argparse.ArgumentParser('Sets up a SSH local forward by connecting a localhost port to the same remote localhost port. This function is useful when using a remote machine for running a development environment and simulating servers running on the remote machine as if they were run locally.')
+parser.add_argument(
+	'ports', 
+	help='Ports to local forward. They must be available locally and on the remote machine. If no ports are provided and the -r option is specified, local forward will be stopped on all currently used ports. If no ports are provided and -r is not specified, local forward will be restarted with the current ports.',
+	nargs='*',
+	type=int
+)
+parser.add_argument(
+	'--host',
+	help='Host defined in local OpenSSH configuration (usually ~/.ssh/config) to use for local forward. If a different host is provided than last time running this script, all already forwarded ports will be transferred from the old host to the new one.',
+	default=defaultSSHHost
+)
+parser.add_argument(
+	'-r',
+	'--reset',
+	help='If this flag is provided, all currently forwarded ports will be removed and only the new ones specified as parameters to this script will be used. The default is to append new ports to current ones.',
+	action='store_true'
+)
+args = parser.parse_args()
+SSHPorts = args.ports
+SSHHost = args.host
+resetPorts = args.reset
+if not SSHHost:
+	raise AttributeError('Host must be specified using --host or as a global export under key {}.'.format(defaultDevelopmentMachineSSHHostKey))
+# There are multiple ways of finding the existing pid of autossh. It is possible to write a pid to /var/run/ or some other temporary directory. It is also possible to find the pid using "ps aux | grep <pattern>" or pgrep -f <pattern>. This script uses a temporary directory. It is usually specified by $TMPDIR environment variable.
+processTrackingDirectoryPath = join(tempfile.gettempdir(), 'ssh-local-forward')
+try:
+	os.mkdir(processTrackingDirectoryPath)
+	trackingDirectoryExisted = False
+except OSError:
+	trackingDirectoryExisted = True
+pidFilePath = join(processTrackingDirectoryPath, 'autossh.pid')
+portsFilePath = join(processTrackingDirectoryPath, 'forwarded-ports')
+if trackingDirectoryExisted:
+	try:
+		with open(pidFilePath, 'r') as pidFile:
+			autosshPid = int(pidFile.read())
+	except FileNotFoundError:
+		autosshPid = None
+	if resetPorts:
+		# If resetPorts is true, there's no need to read current ports from the file. If there are any current ports used, they will no longer be used anyway.
+		oldPorts = None
+	else:
+		try:
+			with open(portsFilePath, 'r') as portsFile:
+				oldPorts = list(map(lambda portString: int(portString.strip()), portsFile.readlines()))
+		except FileNotFoundError:
+			oldPorts = None
+else:
+	autosshPid = None
+	oldPorts = None
+if not oldPorts:
+	newPorts = SSHPorts
+else:
+	newUniquePorts = list(filter(lambda port: not port in oldPorts, SSHPorts))
+	newPorts = oldPorts + newUniquePorts
+# Stop autossh and start it again with one more ports forwarded. This way, there will be only one process responsible for all port forwards to the same host and only two ports used for monitoring the server: the first one specified using -M in autossh and the other is -M + 1.
+if autosshPid:
+	os.kill(autosshPid, signal.SIGTERM.value)
+# Save new ports list to file.
+with open(portsFilePath, 'w') as portsFile:
+	portsFile.write(os.linesep.join(map(str, newPorts)))
+	portsFile.close()
+if len(newPorts) > 0:
+	# Only start autossh if there are any ports to forward.
+	subprocess.run(
+		'AUTOSSH_PIDFILE={2} autossh -M 20000 -f -N {1} {0}'.format(
+			SSHHost, 
+			' '.join(map(lambda port: '-L {0}:localhost:{0}'.format(port), newPorts)), 
+			shlex.quote(pidFilePath)
+		),
+		check=True, 
+		shell=True
+	)
+if len(newPorts) == 0:
+	print('Not forwarding ports.')
+else:
+	print('Forwarding ports {}.'.format(', '.join(map(str, newPorts))))

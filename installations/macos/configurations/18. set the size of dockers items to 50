@@ -1,0 +1,3 @@
+#!/bin/bash
+# Set the icon size of Dock items in pixels
+defaults write com.apple.dock tilesize -int 50

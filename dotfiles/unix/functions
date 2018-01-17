@@ -1,0 +1,73 @@
+# Remove local images.
+function docker-clean-images(){
+	docker rmi $(docker images -a --filter=dangling=true -q)
+}
+
+# Remove unused containers.
+function docker-clean-containers(){
+	docker rm $(docker ps --filter=status=exited --filter=status=created -q)
+}
+
+# Change env based on docker-machine's machine.
+function dme(){
+	local docker_machine_name="$1"
+	eval $(docker-machine env "$1")
+}
+
+# Unset docker-machine env (will use local).
+function dmu(){
+	eval $(docker-machine env --unset)
+}
+
+# Check what is running on specified port ($1).
+function process-from-tcp-port(){
+	sudo lsof -i tcp:$1
+}
+
+# Kill process by PID ($1).
+function kill-process-hard(){
+	kill -9 $1
+}
+
+# Get memory usage.
+function mem(){
+	if [[ "$OSTYPE" == "darwin"* ]]; then
+		vm_stat | perl -ne '/page size of (\d+)/ and $size=$1; /Pages\s+([^:]+)[^\d]+(\d+)/ and printf("%-16s % 16.2f Mi\n", "$1:", $2 * $size / 1048576);'
+	else
+		free -h
+	fi
+}
+
+# Show disk and mount occupation.
+function disk(){
+	df -h
+}
+
+function local-forward(){
+	"$DF_DIR/unix/utils/sshLocalForward" "$@"
+}
+
+function local-forward-stop(){
+	# Same as running localForward without specifying ports and removing current ports.
+	"$DF_DIR/unix/utils/sshLocalForward" -r
+}
+
+function add-all-keys(){
+	"$DF_DIR/unix/utils/addAllKeys" "$@"
+}
+
+function keygen(){
+	"$DF_DIR/unix/utils/keygen" "$@"
+}
+
+function key-fingerprint(){
+	"$DF_DIR/unix/utils/keyFingerprint" "$@"
+}
+
+function edit-directory(){
+	"$DF_DIR/unix/utils/editorForDirectory" "$@"
+}
+
+function dev-term(){
+	mosh "$DEVELOPMENT_MACHINE_SSH_HOST"
+}

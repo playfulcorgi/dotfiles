@@ -1,0 +1,3 @@
+#!/bin/bash
+# Expand print panel by default
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true

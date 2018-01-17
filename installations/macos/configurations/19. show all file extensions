@@ -1,0 +1,3 @@
+#!/bin/bash
+# Show file extensions by default
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true

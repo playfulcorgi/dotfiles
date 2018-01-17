@@ -1,0 +1,33 @@
+alias sudo="sudo "
+alias d=docker
+alias dc=docker-compose
+alias dm=docker-machine
+alias ni="npm install"
+alias nu="npm uninstall"
+alias c=clear
+alias ..="cd .."
+
+DOTFILES_ALIASES_PREFIX='ą__'
+alias "${DOTFILES_ALIASES_PREFIX}d"=d
+alias "${DOTFILES_ALIASES_PREFIX}dc"=dc
+alias "${DOTFILES_ALIASES_PREFIX}dm"=dm
+alias "${DOTFILES_ALIASES_PREFIX}ni"=ni
+alias "${DOTFILES_ALIASES_PREFIX}nu"=nu
+alias "${DOTFILES_ALIASES_PREFIX}c"=c
+alias "${DOTFILES_ALIASES_PREFIX}.."=..
+alias "${DOTFILES_ALIASES_PREFIX}local-forward"=local-forward
+alias "${DOTFILES_ALIASES_PREFIX}local-forward-stop"=local-forward-stop
+alias "${DOTFILES_ALIASES_PREFIX}add-all-keys"=add-all-keys
+alias "${DOTFILES_ALIASES_PREFIX}keygen"=keygen
+alias "${DOTFILES_ALIASES_PREFIX}key-fingerprint"=key-fingerprint
+alias "${DOTFILES_ALIASES_PREFIX}edit-directory"=edit-directory
+alias "${DOTFILES_ALIASES_PREFIX}mem"=mem
+alias "${DOTFILES_ALIASES_PREFIX}disk"=disk
+alias "${DOTFILES_ALIASES_PREFIX}process-from-tcp-port"=process-from-tcp-port
+alias "${DOTFILES_ALIASES_PREFIX}kill-process-hard"=kill-process-hard
+alias "${DOTFILES_ALIASES_PREFIX}docker-remove-unused-images"=docker-remove-unused-images
+alias "${DOTFILES_ALIASES_PREFIX}docker-clean-containers"=docker-clean-containers
+alias "${DOTFILES_ALIASES_PREFIX}dme"=dme
+alias "${DOTFILES_ALIASES_PREFIX}dmu"=dmu
+alias "${DOTFILES_ALIASES_PREFIX}dev-term"=dev-term
+# Functions from dotfiles use the same prefix so it's easier to find their names in the terminal.

@@ -1,0 +1,3 @@
+#!/bin/bash
+# Show status bar in Finder
+defaults write com.apple.finder ShowStatusBar -bool true
