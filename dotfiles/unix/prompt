@@ -78,7 +78,10 @@ bash_prompt_command() {
     echo -ne "\033]0;${P_PWD}\007"
   fi
 
-  PS1="${P_BLUE_BG} ${P_TIME} ($(date +%z)) ${DARK_BLUE}${P_USER}${P_WHITE}@${DARK_BLUE}${P_HOST} ${P_WHITE}${P_PWD} ${P_RESET} "
+  local HOSTNAME_COLOR_NUMBER=$(hostname | od | tr ' ' '\n' | awk '{total = total + $1}END{print 30 + (total % 6)}')
+  local HOSTNAME_COLOR="\[\e[${HOSTNAME_COLOR_NUMBER}m\]\]"
+
+  PS1="${P_BLUE_BG} ${P_WHITE}${P_TIME} ($(date +%z)) ${DARK_BLUE}${P_USER}${P_WHITE}${HOSTNAME_COLOR}@${P_HOST} ${P_WHITE}${P_PWD} ${P_RESET} "
 }
 
 _bash_prompt_config
