@@ -17,7 +17,6 @@ python3 -m pip install pick
 ### Linux
 ```
 sudo apt install python3-pip
-pip install --upgrade pip
 sudo pip3 install pick
 ```
 
@@ -31,7 +30,10 @@ Docker Machine does not provide commands for exporting and importing information
 ### Basic entry files to setup up a new machine
 
 #### Dotfiles
-Run `install-dotfiles dotfiles && . "~/.bash_profile"` first and provide a path to the dotfiles directory as the first parameter. The dotfiles directory will be copied into the user's directory under `dotfiles` and its `install` file linked to the system (inside `~/.bash_profile` by default) to run on every system boot. Default dotfiles are provided alongside this readme, inside the `dotfiles` directory.
+For a full list of options, run `./install-dotfiles -h`.
+
+**Primary usage:**
+Run `./install-dotfiles -p dotfiles && . "~/.bash_profile"` first and provide a path to the dotfiles directory as the first parameter. The dotfiles directory will be copied into the user's directory under `dotfiles` and its `install` file linked to the system (inside `~/.bash_profile` on macOS by default, check the home directory (`cd ~`) to make sure or let `install-dotfiles` create `~/.bash_profile` for you) to run on every system boot. Default dotfiles are provided alongside this README.md, inside the `dotfiles` directory.
 
 #### Software installations
 Run `install installations` to get an interactive list of interactive and non-interactive "installers" available inside the `installations` directory, placed alongside this readme. The recommended order of installation is indicated by installer names which directly correspond to files inside the directory containing installers. All installers must be executable (use `chmod u+x -R "$(pwd)/installations"` to make all files executable). A special file named `.post-install-each` can be placed inside the installations directory or any of its subdirectories. It will be executed after every successfull installer execution.
