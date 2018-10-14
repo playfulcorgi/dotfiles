@@ -76,3 +76,11 @@ function edit-directory(){
 function dev-term(){
 	et "$DEVELOPMENT_MACHINE_SSH_HOST"
 }
+
+function add-key(){
+	ssh-add "$1"
+}
+
+function remove-key(){
+	ssh-add -d "$1"
+}
