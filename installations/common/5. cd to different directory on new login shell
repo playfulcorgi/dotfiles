@@ -1,0 +1,4 @@
+#!/bin/bash
+echo 'Specify default login shell directory. It will be appended to ~/.bash_profile.'
+read -p 'Path do directory: ' directoryPath
+"\ncd \"$directoryPath\"" >> ~/.bash_profile
