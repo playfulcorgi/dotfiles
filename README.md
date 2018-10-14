@@ -57,7 +57,9 @@ Will generate a new private and public key pair. The private key will be located
 Will return the md5 representation of a key which is used on sites such as GitHub.
 
 #### `dev-term`
-Opens a [mosh](https://mosh.org/) shell in the terminal and logs into `DEVELOPMENT_MACHINE_SSH_HOST` which is equal `development-machine` and references the `development-machine` host in SSH config.
+Opens a [Eternal Terminal (et)](https://mistertea.github.io/EternalTerminal/) shell in the terminal and logs into `DEVELOPMENT_MACHINE_SSH_HOST` which is equal `development-machine` (defined inside `~/.ssh/config`).
+
+Note: ET has one significant advantage over [Mosh](https://mosh.org/) - it's possible to still scroll the terminal in macOS and see previous commands when using it.
 
 #### Docker commands
 - `d` is shorthand for docker
