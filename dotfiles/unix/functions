@@ -74,5 +74,5 @@ function edit-directory(){
 }
 
 function dev-term(){
-	mosh "$DEVELOPMENT_MACHINE_SSH_HOST"
+	et "$DEVELOPMENT_MACHINE_SSH_HOST"
 }
