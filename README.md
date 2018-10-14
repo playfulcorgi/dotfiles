@@ -1,4 +1,4 @@
-# New environment setup scripts
+# (Opinionated) dotfiles and setup scripts
 
 ## Basic requirements (TODO: complete the list)
 
@@ -83,6 +83,3 @@ Note: ET has one significant advantage over [Mosh](https://mosh.org/) - it's pos
 - `ni` is `npm install`
 - `nu` is `npm uninstall`
 - `..` does `cd ..`
-
-TODO: Write about sidebar-scripts.
-TODO: Write about VS Code extensions. Share config?
