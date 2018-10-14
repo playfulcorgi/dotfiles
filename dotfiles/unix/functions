@@ -1,3 +1,8 @@
+# Remove unused volumes.
+function docker-clean-volumes(){
+	docker volume ls -qf dangling=true | xargs -r docker volume rm
+}
+
 # Remove local images.
 function docker-clean-images(){
 	docker rmi $(docker images -a --filter=dangling=true -q)
