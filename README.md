@@ -71,7 +71,7 @@ Note: ET has one significant advantage over [Mosh](https://mosh.org/) - it's pos
 - `dmu` unsets the Docker Machine environment so it manages the local host again
 
 #### Stats
-- `mem` shows meomry usage
+- `mem` shows memory usage
 - `disk` shows disk usage
 
 #### Process management
@@ -83,3 +83,47 @@ Note: ET has one significant advantage over [Mosh](https://mosh.org/) - it's pos
 - `ni` is `npm install`
 - `nu` is `npm uninstall`
 - `..` does `cd ..`
+
+## Adding convenience scripts
+
+File with the following contents can be double clicked and will open a directory or file in VSCode (defined in `editor.py`):
+```
+#!/bin/bash --login
+edit-directory "DIRECTORY_PATH"
+```
+
+File with the following contents can be double clicked and will add all ssh keys in the directory:
+```
+#!/bin/bash --login
+add-all-keys "SSH_KEYS_PATH"
+```
+
+Such files can be grouped into a directory and placed in macOS's dock for quick access.
+
+## Easier handling of multiple GitHub accounts
+Inside ~/.ssh/config, hosts starting with github.com have a special meaning. They're used for cloning and for interacting with GitHub repos using different private keys. For example, `git clone git@github.com-key1:user1/somerepo.git`. Git clone will then save the custom host as upstream, `origin` remote, so this is the only modification required to use git normally while supporting multiple GitHub accounts.
+
+```
+Host github.com-key1
+	HostName github.com
+	User user1
+	IdentityFile "/Users/user/.ssh/key1"
+
+Host github.com-key2
+	HostName github.com
+	User user2
+	IdentityFile "/Users/user/.ssh/key2"
+```
+
+To ensure that commit author and commiter are the same in GitHub:
+`GIT_COMMITTER_NAME='user1' GIT_COMMITTER_EMAIL='user1email' git commit --author 'user1 <user1email>'`
+
+
+## Basic ~/.ssh/config parameters
+```
+Host development-machine
+	HostName someinstancename.eu-west-1.compute.amazonaws.com
+	User ubuntu
+	IdentityFile "/Users/user1/.ssh/key"
+	ServerAliveInterval 60
+```
