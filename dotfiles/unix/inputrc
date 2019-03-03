@@ -1,2 +1,5 @@
 # Make Tab autocomplete regardless of filename case
 set completion-ignore-case On
+
+# Disable legacy mnemonics
+stty -ixon
