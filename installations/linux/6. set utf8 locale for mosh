@@ -1,0 +1,7 @@
+#!/bin/bash
+apt-get install -y locales
+locale-gen "en_US.UTF-8"
+update-locale LC_ALL="en_US.UTF-8"
+
+echo 'Locale set. May also have to export LC_ALL=en_US.UTF-8 in ~/.bashrc'
+read -p 'Press Enter to continue'
