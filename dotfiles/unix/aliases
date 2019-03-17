@@ -6,6 +6,8 @@ alias ni="npm install"
 alias nu="npm uninstall"
 alias c=clear
 alias ..="cd .."
+alias ls="ls -alh"
+alias mkdir="mkdir -pv"
 
 DOTFILES_ALIASES_PREFIX='ą__'
 alias "${DOTFILES_ALIASES_PREFIX}d"=d
