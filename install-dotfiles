@@ -16,14 +16,14 @@ dotfilesTargetDirectoryPathWithHome = '$HOME/dotfiles'
 dotfilesTargetDirectoryPathWithExpansion = '~/dotfiles'
 dotfilesTargetDirectoryPath = os.path.expanduser(dotfilesTargetDirectoryPathWithExpansion)
 parser = argparse.ArgumentParser(description='Installs dotfiles in the system. To uninstall dotfiles later, delete {} and remove the reference to the deleted directory from "target".'.format(dotfilesTargetDirectoryPath))
-defaultTargetSystemFilePath = '~/.bash_profile'
+defaultTargetSystemFilePath = '~/.zshrc'
 parser.add_argument(
 	'source', 
 	help='Path to directory containing dotfiles. Run this command with the same path to pick up changes in dotfiles and apply new files to the system configuration. Directory contents will be copied to "{}". Dotfiles directory must contain a "{}" file which will be sourced by the system.'.format(dotfilesTargetDirectoryPath, dotfilesEntryFilename)
 )
 parser.add_argument(
 	'target', 
-	help='Operating system file to append dotfiles to. For example, "~/.bash_profile" or "~/.profile". If the file doesn\'t exist, it will be created. If no target is provided, the default will be used (~/.bash_profile).', 
+	help='Operating system file to append dotfiles to. For example, "~/.zshrc" or "~/.profile". If the file doesn\'t exist, it will be created. If no target is provided, the default will be used (~/.zshrc).', 
 	nargs='?',
 	default=defaultTargetSystemFilePath
 )
@@ -98,4 +98,4 @@ print('To source in current shell, execute \'{}\'.'.format(sourceTargetSystemFil
 
 # TODO: make a repo out of this installer on github
 
-# TODO: backup old system file and dotfiles (place inside ~/dotfiles-old/<date>/dotfiles ~/dotfiles-old/<date>/.bash_profile if the directory doesn't exist)
+# TODO: backup old system file and dotfiles (place inside ~/dotfiles-old/<date>/dotfiles ~/dotfiles-old/<date>/.zshrc if the directory doesn't exist)
