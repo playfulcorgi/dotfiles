@@ -2,4 +2,3 @@
 # Make Docker available to current user without sudo:
 sudo usermod -a -G docker $USER
 echo 'Reboot of the system is required for the change to take effect. You can reboot with sudo reboot'
-read -p 'Press Enter to continue'

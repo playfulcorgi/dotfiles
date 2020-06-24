@@ -17,6 +17,7 @@ dotfilesTargetDirectoryPathWithExpansion = '~/dotfiles'
 dotfilesTargetDirectoryPath = os.path.expanduser(dotfilesTargetDirectoryPathWithExpansion)
 parser = argparse.ArgumentParser(description='Installs dotfiles in the system. To uninstall dotfiles later, delete {} and remove the reference to the deleted directory from "target".'.format(dotfilesTargetDirectoryPath))
 defaultTargetSystemFilePath = '~/.zshrc'
+
 parser.add_argument(
 	'source', 
 	help='Path to directory containing dotfiles. Run this command with the same path to pick up changes in dotfiles and apply new files to the system configuration. Directory contents will be copied to "{}". Dotfiles directory must contain a "{}" file which will be sourced by the system.'.format(dotfilesTargetDirectoryPath, dotfilesEntryFilename)
@@ -33,6 +34,7 @@ parser.add_argument(
 	help='If specified, will make the system install dotfiles on every boot. If not specified, dotfiles will only be copied to "{}".'.format(dotfilesTargetDirectoryPath), 
 	action='store_true'
 )
+
 args = parser.parse_args()
 dotfilesDirectoryPath = os.path.expanduser(args.source)
 targetSystemFilePath = os.path.expanduser(args.target)
@@ -40,6 +42,7 @@ addToTargetSystemFile = args.permanent
 print('Checking if "{}" exists inside dotfiles directory.'.format(dotfilesEntryFilename))
 dotfilesInstallPath = os.path.join(dotfilesDirectoryPath, dotfilesEntryFilename)
 installExists = os.path.isfile(dotfilesInstallPath)
+
 if not installExists:
 	print('Entry file named "{}" is required inside dotfiles directory but was not found at path "{}". It will be run on every system boot.'.format(dotfilesEntryFilename, dotfilesInstallPath))
 	exit(1)
@@ -56,6 +59,7 @@ else:
 shutil.copytree(dotfilesDirectoryPath, dotfilesTargetDirectoryPath)
 print('{} directory updated.'.format(dotfilesTargetDirectoryPath))
 dotfilesDirectoryPathExportCommand = 'export DF_DIR="{}"'.format(dotfilesTargetDirectoryPathWithHome)
+
 if addToTargetSystemFile:
 	print('Appending "{}" to system file path so it is always used.'.format(targetSystemFilePath))
 	dotfilesTargetInstallFilePath = os.path.join(
@@ -82,20 +86,13 @@ if addToTargetSystemFile:
 		targetSystemFilePath, 
 		sourcingStream.getvalue()
 	)
+
 	if dotfilesInstallAlreadyAdded:
 		print('Dotfiles install file path sourcing already used in system, skipping creation.')
 	else:
 		print('Adding sourcing of dotfiles install file to system.')
 		with open(targetSystemFilePath, 'a') as systemFile:
 			shutil.copyfileobj(sourcingStream, systemFile)
+
 sourceTargetSystemFilePath = '. "{}"'.format(targetSystemFilePath)
 print('To source in current shell, execute \'{}\'.'.format(sourceTargetSystemFilePath))
-
-
-# README.md:
-
-# consider installing dotfiles using SSH onto a new linux machine
-
-# TODO: make a repo out of this installer on github
-
-# TODO: backup old system file and dotfiles (place inside ~/dotfiles-old/<date>/dotfiles ~/dotfiles-old/<date>/.zshrc if the directory doesn't exist)

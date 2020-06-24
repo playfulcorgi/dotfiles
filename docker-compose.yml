@@ -1,0 +1,8 @@
+# Test dotfiles using Docker!
+version: "3.0"
+services:
+  app:
+    image: playfulcorgi/dotfiles:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
