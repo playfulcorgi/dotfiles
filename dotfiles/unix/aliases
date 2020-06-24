@@ -1,5 +1,3 @@
-shopt -s expand_aliases
-
 alias sudo="sudo "
 alias d=docker
 alias dc=docker-compose

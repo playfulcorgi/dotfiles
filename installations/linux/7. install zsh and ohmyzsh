@@ -1,0 +1,5 @@
+#!/bin/bash
+apt-get install zsh curl git -y
+chsh -s /usr/bin/zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo 'Oh My Zsh installed.'
