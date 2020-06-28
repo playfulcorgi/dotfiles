@@ -43,7 +43,7 @@ Run `./install-dotfiles -p dotfiles && . "~/.zshrc"` first and provide a path to
 
 #### Software installations
 
-Run `install installations` to get an interactive list of interactive and non-interactive "installers" available inside the `installations` directory, placed alongside this readme. The recommended order of installation is indicated by installer names which directly correspond to files inside the directory containing installers. All installers must be executable (use `chmod u+x -R "$(pwd)/installations"` to make all files executable). A special file named `.post-install-each` can be placed inside the installations directory or any of its subdirectories. It will be executed after every successfull installer execution.
+Run `./install-aux-scripts installations` to get an interactive list of interactive and non-interactive "installers" available inside the `/installations` directory. The recommended order of installation is indicated by installer names which directly correspond to files inside the directory containing installers. All installers must be executable (use `chmod u+x -R "$(pwd)/installations"` to make all files executable). A special file named `.post-install-each` can be placed inside the installations directory or any of its subdirectories. It will be executed after every successfull installer execution.
 
 ### Helpful functions
 
