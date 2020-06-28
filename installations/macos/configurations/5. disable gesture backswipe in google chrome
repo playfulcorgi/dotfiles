@@ -1,3 +1,2 @@
-#!/bin/bash
 # Disable the all too sensitive backswipe in Chrome
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false

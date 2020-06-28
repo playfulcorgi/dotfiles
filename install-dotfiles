@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 import argparse, os, shutil, subprocess, io
-# shlex, 
+from subprocess import Popen
+from shlex import quote
+from os import path
+
+def relative(subpath=''):
+	from os import path
+	return path.join(path.dirname(path.abspath(__file__)), subpath)
 
 def fileContainsChunk(filePath, searchedChunk):
 	try:
@@ -22,23 +28,33 @@ parser.add_argument(
 	'source', 
 	help='Path to directory containing dotfiles. Run this command with the same path to pick up changes in dotfiles and apply new files to the system configuration. Directory contents will be copied to "{}". Dotfiles directory must contain a "{}" file which will be sourced by the system.'.format(dotfilesTargetDirectoryPath, dotfilesEntryFilename)
 )
+
 parser.add_argument(
 	'target', 
 	help='Operating system file to append dotfiles to. For example, "~/.zshrc" or "~/.profile". If the file doesn\'t exist, it will be created. If no target is provided, the default will be used (~/.zshrc).', 
 	nargs='?',
 	default=defaultTargetSystemFilePath
 )
+
 parser.add_argument(
-	'-p', 
-	'--permanent', 
-	help='If specified, will make the system install dotfiles on every boot. If not specified, dotfiles will only be copied to "{}".'.format(dotfilesTargetDirectoryPath), 
-	action='store_true'
+	'-t', 
+	'--temporary', 
+	help='If specified, the script will only copy dotfiles to "{}". Otherwise, the system will install dotfiles on every boot.'.format(dotfilesTargetDirectoryPath), 
+	action='store_false'
+)
+
+parser.add_argument(
+	'-a',
+	'--auxiliary',
+	help='Install recommended auxiliary scripts.',
+	action='store_false'
 )
 
 args = parser.parse_args()
+
 dotfilesDirectoryPath = os.path.expanduser(args.source)
 targetSystemFilePath = os.path.expanduser(args.target)
-addToTargetSystemFile = args.permanent
+addToTargetSystemFile = args.temporary
 print('Checking if "{}" exists inside dotfiles directory.'.format(dotfilesEntryFilename))
 dotfilesInstallPath = os.path.join(dotfilesDirectoryPath, dotfilesEntryFilename)
 installExists = os.path.isfile(dotfilesInstallPath)
@@ -88,11 +104,30 @@ if addToTargetSystemFile:
 	)
 
 	if dotfilesInstallAlreadyAdded:
-		print('Dotfiles install file path sourcing already used in system, skipping creation.')
+		print('Dotfiles already installed in system. Not installing again.')
 	else:
-		print('Adding sourcing of dotfiles install file to system.')
+		print('Installing dotfiles in system.')
 		with open(targetSystemFilePath, 'a') as systemFile:
 			shutil.copyfileobj(sourcingStream, systemFile)
 
 sourceTargetSystemFilePath = '. "{}"'.format(targetSystemFilePath)
+
+def install(scriptPath):
+	print('Installing "{}".'.format(scriptPath))
+	process = Popen(quote(relative(path.expanduser(scriptPath))), shell=True)
+	process.communicate()
+	processReturnCode = process.returncode
+
+	if processReturnCode == 0:
+		print('Installed "{}"'.format(scriptPath))
+	else:
+		raise Exception('There was an error during install (file "{}", exit code {}).'
+			.format(scriptPath, processReturnCode))
+
+if args.auxiliary:
+	print('Running recommended auxiliary scripts.')
+	install('./installations/common/6. install zsh and ohmyzsh')
+	install('./installations/common/1. add global gitignore rules')
+	install('./installations/common/3. set default git editor to nano')
+
 print('To source in current shell, execute \'{}\'.'.format(sourceTargetSystemFilePath))

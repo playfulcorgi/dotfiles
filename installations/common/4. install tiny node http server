@@ -1,3 +1,2 @@
-#!/bin/bash
 npm install http-server -g
 echo 'Server installed. Usage: http-server -p <port>.'

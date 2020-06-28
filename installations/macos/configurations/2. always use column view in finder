@@ -1,3 +1,2 @@
-#!/bin/bash
 # Always open everything in Finder's column view. This is important.
 defaults write com.apple.Finder FXPreferredViewStyle clmv

@@ -1,3 +1,2 @@
-#!/bin/bash
 # Disable the warning when changing file extensions
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false

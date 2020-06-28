@@ -7,8 +7,8 @@ from pick import pick
 from shlex import quote
 
 def relative(subpath=''):
-    from os import path
-    return path.join(path.dirname(path.abspath(__file__)), subpath)
+	from os import path
+	return path.join(path.dirname(path.abspath(__file__)), subpath)
 
 def naturalSortKey(s):
 	import re
@@ -19,23 +19,30 @@ scriptsPath = 'installations'
 cancelOptionIndex = 0
 lastPickIndex = 0
 parser = argparse.ArgumentParser('Allows running specific scripts found inside a directory. That is all. ".post-install-each" can placed inside "source" or its subdirectories to run a script after each successfull installation script execution. All files with "." at the beginnig will not be visible as installations scripts. Make sure installation files are executable.')
+
 parser.add_argument(
 	'source', 
 	help='Path to directory containing scripts. Scripts can be any executable files, such as Bash and Python executables. They can be nested inside directories. The provided path can begin with ~ (for specifying the user\'s home directory).'
 )
+
 args = parser.parse_args()
+
 installsSourceDirectoryPath = relative(path.expanduser(args.source))
 installsSourceDirectoryGlob = path.join(installsSourceDirectoryPath, '**/*')
 installs = [install for install in sorted(glob(installsSourceDirectoryGlob, recursive=True), key=naturalSortKey) if not path.isdir(install)]
 dotfilesPaths = glob(path.join(installsSourceDirectoryPath, '**/.post-install-each'), recursive=True)
+
 for globItem in dotfilesPaths + installs:
 	if not os.access(globItem, os.X_OK):
 		print('{} cannot be executed. Make sure it\'s executable.'.format(quote(globItem)))
 		exit(1)
+
 def removeAbs(absPath):
 	return path.relpath(absPath, path.commonpath([installsSourceDirectoryPath, absPath]))
+
 installsDisplay = ['quit'] + list(map(removeAbs, installs))
 installs = ['quit'] + installs
+
 while True:
 	pickedOptionText, pickedOptionIndex = pick(
 		installsDisplay, 

@@ -39,7 +39,7 @@ Docker Machine does not provide commands for exporting and importing information
 For a full list of options, run `./install-dotfiles -h`.
 
 **Primary usage:**
-Run `./install-dotfiles -p dotfiles && . "~/.zshrc"` first and provide a path to the dotfiles directory as the first parameter. The dotfiles directory will be copied into the user's directory under `dotfiles` and its `install` file linked to the system (inside `~/.zshrc` on macOS by default, check the home directory (`cd ~`) to make sure or let `install-dotfiles` create `~/.zshrc` for you) to run on every system boot. Default dotfiles are provided alongside this README.md, inside the `dotfiles` directory.
+Run `./install-dotfiles dotfiles && . "~/.zshrc"` first and provide a path to the dotfiles directory as the first parameter. The dotfiles directory will be copied into the user's directory under `dotfiles` and its `install` file linked to the system (inside `~/.zshrc` on macOS by default, check the home directory (`cd ~`) to make sure or let `install-dotfiles` create `~/.zshrc` for you) to run on every system boot. Default dotfiles are provided alongside this README.md, inside the `dotfiles` directory.
 
 #### Software installations
 

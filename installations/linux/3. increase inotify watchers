@@ -1,3 +1,2 @@
-#!/bin/bash
 # Increase the number of files that can be watched at the same time by the operating system. Fix for tools watching many files at ones such as Webpack.
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p

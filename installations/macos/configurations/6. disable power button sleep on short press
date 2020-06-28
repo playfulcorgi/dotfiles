@@ -1,3 +1,2 @@
-#!/bin/bash
 # Disable sleep on short power button press and make power options show up sooner instead
 defaults write com.apple.loginwindow PowerButtonSleepsSystem -bool no
