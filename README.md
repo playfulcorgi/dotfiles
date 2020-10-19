@@ -54,31 +54,35 @@ Run `./install-aux-scripts installations` to get an interactive list of interact
 
 All extra functions from dotfiles are available under the "ą\_\_" (alt+a on macOS followed by two underscores) prefix for easier distinction in the shell. They're also all available without the prefix.
 
-#### `edit-directory <optional path>`
+#### `ą__edit-directory <optional path>`
 
 Opens a directory using the `editor.py` handler. By default, the directory will open in VSCode. If no directory is given, will open the current directory (cwd).
 
-#### `add-all-keys`
+#### `ą__add-all-keys`
 
 Executing `add-all-keys <keys>` will add all private keys inside the `keys` directory to the current ssh agent. The script omits files ending with `.pub`, assuming those contain only public keys.
 
-#### `local-forward` and `local-forward-stop`
+#### `ą__local-forward` and `local-forward-stop`
 
 These functions make it easier to setup tunnels to localhost ports on a remote machine to the same local port on the caller. By default, the remote host is identified using a global variable `DEVELOPMENT_MACHINE_SSH_HOST`. The variable's value is `development-machine` by default and references a host inside ~/.ssh/config, so it must be defined there. `local-forward` makes using a VPS as a remote development machine much easier. For example, it's very easy to test a website on `development-machine` remotely and privately on port 3000 by executing `local-forward 3000`. To add more ports, execute the function with ports as parameters. To replace old ports with new ones, add a `-r` flag and to remove all ports, use the `-r` without providing any ports as parameters or execute `local-forward-stop`. To use a different host, use `--host <host>`.
 
-#### `keygen <path to private key>`
+#### `ą__keygen <path to private key>`
 
 Will generate a new private and public key pair. The private key will be located at the provided path and its public key right next to it with a ".key" suffix.
 
-#### `key-fingerprint <path to public key>`
+#### `ą__key-fingerprint <path to public key>`
 
 Will return the md5 representation of a key which is used on sites such as GitHub.
 
-#### `dev-term`
+#### `ą__dev-term`
 
 Opens a [Eternal Terminal (et)](https://mistertea.github.io/EternalTerminal/) shell in the terminal and logs into `DEVELOPMENT_MACHINE_SSH_HOST` which is equal `development-machine` (defined inside `~/.ssh/config`).
 
 Note: ET has one significant advantage over [Mosh](https://mosh.org/) - it's possible to still scroll the terminal in macOS and see previous commands when using it.
+
+#### `ą__git-config-user`
+
+Sets git user name and email for local git repository. Useful when managing multiple git repositories with multiple git users. For example, a private git user and a company git user. Git uses this configuration to author new commits.
 
 #### Docker commands
 

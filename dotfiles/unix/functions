@@ -84,3 +84,10 @@ function add-key(){
 function remove-key(){
 	ssh-add -d "$1"
 }
+
+function git-config-user(){
+	git config --local user.name "$1"
+	git config --local user.email "$2"
+	echo "Current git configuration for repository:"
+	cat .git/config
+}
