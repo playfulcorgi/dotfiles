@@ -40,21 +40,23 @@ parser.add_argument(
 	'-t', 
 	'--temporary', 
 	help='If specified, the script will only copy dotfiles to "{}". Otherwise, the system will install dotfiles on every boot.'.format(dotfilesTargetDirectoryPath), 
-	action='store_false'
+	action='store_true'
 )
 
 parser.add_argument(
-	'-a',
-	'--auxiliary',
-	help='Install recommended auxiliary scripts.',
-	action='store_false'
+	'-na',
+	'--no-auxiliary',
+	help='Do not install recommended auxiliary scripts.',
+	action='store_true'
 )
 
 args = parser.parse_args()
 
 dotfilesDirectoryPath = os.path.expanduser(args.source)
 targetSystemFilePath = os.path.expanduser(args.target)
-addToTargetSystemFile = args.temporary
+addToTargetSystemFile = not args.temporary
+runAuxiliaryScripts = not args.no_auxiliary
+
 print('Checking if "{}" exists inside dotfiles directory.'.format(dotfilesEntryFilename))
 dotfilesInstallPath = os.path.join(dotfilesDirectoryPath, dotfilesEntryFilename)
 installExists = os.path.isfile(dotfilesInstallPath)
@@ -124,7 +126,7 @@ def install(scriptPath):
 		raise Exception('There was an error during install (file "{}", exit code {}).'
 			.format(scriptPath, processReturnCode))
 
-if args.auxiliary:
+if runAuxiliaryScripts:
 	print('Running recommended auxiliary scripts.')
 	install('./installations/common/6. install zsh and ohmyzsh')
 	install('./installations/common/1. add global gitignore rules')
