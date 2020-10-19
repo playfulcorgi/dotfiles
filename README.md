@@ -1,5 +1,7 @@
 # Dotfiles and setup scripts
 
+![Functions usage example](./readme-media/functions-usage-example.gif)
+
 ## Basic requirements
 
 ### macOS
