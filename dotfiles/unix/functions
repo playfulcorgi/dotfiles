@@ -91,3 +91,9 @@ function git-config-user(){
 	echo "Current git configuration for repository:"
 	cat .git/config
 }
+
+# MacOS only: Output tabs opened in the frontmost Google Chrome window as a list of URLs.
+function export-chrome-tabs(){
+	# Source: https://superuser.com/questions/276321/how-to-export-opened-tabs-in-chrome
+	osascript -e{'set text item delimiters to linefeed','tell app"google chrome"to url of tabs of window 1 as text'}
+}

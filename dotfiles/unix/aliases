@@ -38,5 +38,6 @@ alias "${DOTFILES_ALIASES_PREFIX}dev-term"=dev-term
 alias "${DOTFILES_ALIASES_PREFIX}add-key"=add-key
 alias "${DOTFILES_ALIASES_PREFIX}remove-key"=remove-key
 alias "${DOTFILES_ALIASES_PREFIX}git-config-user"=git-config-user
+alias "${DOTFILES_ALIASES_PREFIX}export-chrome-tabs"=export-chrome-tabs
 
 # Functions from dotfiles use the same prefix so it's easier to find their names in the terminal.
